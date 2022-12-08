@@ -6,3 +6,7 @@
 Each folder contains the practice/problems for that week of the class<br/>
 Each c file is the code from the class changed to better fit the Nucleo-64 environment<br/>
 st_basic.c and st_basic.h stores all functions used for all c files in the folders<br/>
+
+## Extra
+All code have been wrote for use in Keli uVision5<br/>
+Tried to fix most warnings<br/>
