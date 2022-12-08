@@ -80,7 +80,8 @@ Input Variables: Amount of time to delay in ms
 Output Variables: None
 Desc: Delays the program from running other code for a certain amount of time.
 */
-void Delay(unsigned int duration)	{
+void Delay(unsigned int duration)
+{
     /*Saves current system time to prevMillis*/
 	unsigned int prevMillis = sysMillis;
     /*Waits till the difference of current time and previous time is less than or
@@ -94,4 +95,7 @@ Input Variables: None
 Output Variables: None
 Desc: Adds 1 to sysMillis variable every 1 ms.
 */
-void SysTick_Handler(void)	{sysMillis++;}
+void SysTick_Handler(void)
+{
+	sysMillis++;
+}
