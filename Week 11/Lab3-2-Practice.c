@@ -1,3 +1,9 @@
+/*
+Name: Lab3-2-Practice.c
+Desc: Sets up USART2 for connection with PC using PuTTY
+			When connected sends a welcoming message and sends the USART2 input as output
+*/
+
 #include <stm32l4xx.h>
 
 typedef enum GPIO_Mode
@@ -15,7 +21,7 @@ void USART2_TX_String(const char *string);
 
 int main(void)
 {
-    /*Setup initial clock configuration*/
+  /*Setup initial clock configuration*/
 	ClockInit();
 	/*Setup initial USART2 configuration*/
 	USART2_Init();
@@ -29,6 +35,7 @@ int main(void)
 		USART2_TX(USART2_RX());
 	}
 }
+
 
 /*
 Function Name: ClockInit
@@ -64,6 +71,7 @@ void ClockInit(void)
 	RCC->CR &= ~RCC_CR_MSION;
 }
 
+
 /*
 Function Name: GPIO_Init
 Input Variables: None
@@ -72,22 +80,23 @@ Desc: Sets up initial settings for GPIO.
 */
 void GPIO_Init(GPIO_TypeDef *port, unsigned int pin, GPIO_Mode mode)
 {
-    /*Used to set GPIO's state(bit 0 and 1)*/
+  /*Used to set GPIO's state(bit 0 and 1)*/
 	unsigned int modeIn32Bit = ((unsigned int)(mode & 3) << (2 * pin));
-    /*Used to set pull up and pull down resistors(bit 2 and 3)*/
+  /*Used to set pull up and pull down resistors(bit 2 and 3)*/
 	unsigned int pullUpDown = ((unsigned int)(mode >> 2) << (2 * pin));
 	
-    /*Enable clock for GPIO*/
+  /*Enable clock for GPIO*/
 	RCC->AHB2ENR |= (1 << (((unsigned int)port - GPIOA_BASE) >> 10));
 	
-    /*Change GPIO's state to output or input*/
+  /*Change GPIO's state to output or input*/
 	port->MODER |= modeIn32Bit;
 	port->MODER &= (modeIn32Bit | ~((unsigned int)3 << (2 * pin)));
 	
-    /*Change input GPIO's state to pull up or pull down or no resistor*/
+  /*Change input GPIO's state to pull up or pull down or no resistor*/
 	port->PUPDR |= pullUpDown;
 	port->PUPDR &= (pullUpDown | ~((unsigned int)3 << (2 * pin)));
 }
+
 
 /*
 Function Name: USART2_Init
@@ -119,6 +128,7 @@ void USART2_Init(void)
 	USART2->CR1 = USART_CR1_TE | USART_CR1_RE | USART_CR1_UE;
 }
 
+
 /*
 Function Name: USART2_RX
 Input Variables: None
@@ -133,6 +143,7 @@ char USART2_RX(void)
 	return (char)USART2->RDR;
 }
 
+
 /*
 Function Name: USART2_TX
 Input Variables: character: Character that is going to be sent through the USART2
@@ -146,6 +157,7 @@ void USART2_TX(char character)
 	/*Send output through USART2*/
 	USART2->TDR = character;
 }
+
 
 /*
 Function Name: USART2_TX_String

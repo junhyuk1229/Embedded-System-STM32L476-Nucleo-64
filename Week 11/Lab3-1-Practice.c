@@ -1,3 +1,10 @@
+/*
+Name: Lab3-1-Practice.c
+Desc: Sets up input and output GPIO settings using functions
+			Takes input from button to change LED state
+			Turns LED on when button is pressed turns LED off when button is not pressed
+*/
+
 #include <stm32l4xx.h>
 
 typedef enum GPIO_Mode
@@ -11,7 +18,7 @@ void GPIO_Init(GPIO_TypeDef *port, unsigned int pin, GPIO_Mode mode);
 
 int main(void)
 {
-    /*Setup initial clock configuration*/
+  /*Setup initial clock configuration*/
 	ClockInit();
 	
 	/*Enable GPIOA5 as output*/
@@ -26,8 +33,8 @@ int main(void)
 		{
 			/*Turns LD2 off*/
 			GPIOA->BSRR = GPIO_BSRR_BR5;
-		/*If button is pressed*/
 		}
+		/*If button is pressed*/
 		else
 		{
 			/*Turns LD2 on*/
@@ -35,6 +42,7 @@ int main(void)
 		}
 	}
 }
+
 
 /*
 Function Name: ClockInit
@@ -70,6 +78,7 @@ void ClockInit(void)
 	RCC->CR &= ~RCC_CR_MSION;
 }
 
+
 /*
 Function Name: GPIO_Init
 Input Variables: None
@@ -78,19 +87,19 @@ Desc: Sets up initial settings for GPIO.
 */
 void GPIO_Init(GPIO_TypeDef *port, unsigned int pin, GPIO_Mode mode)
 {
-    /*Used to set GPIO's state(bit 0 and 1)*/
+  /*Used to set GPIO's state(bit 0 and 1)*/
 	unsigned int modeIn32Bit = ((unsigned int)(mode & 3) << (2 * pin));
-    /*Used to set pull up and pull down resistors(bit 2 and 3)*/
+  /*Used to set pull up and pull down resistors(bit 2 and 3)*/
 	unsigned int pullUpDown = ((unsigned int)(mode >> 2) << (2 * pin));
 	
-    /*Enable clock for GPIO*/
+  /*Enable clock for GPIO*/
 	RCC->AHB2ENR |= (1 << (((unsigned int)port - GPIOA_BASE) >> 10));
 	
-    /*Change GPIO's state to output or input*/
+  /*Change GPIO's state to output or input*/
 	port->MODER |= modeIn32Bit;
 	port->MODER &= (modeIn32Bit | ~((unsigned int)3 << (2 * pin)));
 	
-    /*Change input GPIO's state to pull up or pull down or no resistor*/
+  /*Change input GPIO's state to pull up or pull down or no resistor*/
 	port->PUPDR |= pullUpDown;
 	port->PUPDR &= (pullUpDown | ~((unsigned int)3 << (2 * pin)));
 }

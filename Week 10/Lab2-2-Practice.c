@@ -1,3 +1,10 @@
+/*
+Name: Lab2-2-Practice.c
+Desc: Set up clocks and systick to get wanted delay
+			Make a basic function to get delay(ms)
+			Blinks LED LD2 every 1 secs
+*/
+
 #include <stm32l4xx.h>
 
 /*Used to store the time passed from the start of the system in ms */
@@ -9,7 +16,7 @@ void SysTick_Handler(void);
 
 int main(void)
 {
-    /*Setup initial clock configuration*/
+  /*Setup initial clock configuration*/
 	ClockInit();
 	
 	/*Enable clock for GPIOA*/
@@ -33,6 +40,7 @@ int main(void)
 		Delay(1000);
 	}
 }
+
 
 /*
 Function Name: ClockInit
@@ -67,12 +75,13 @@ void ClockInit(void)
 	/*Turn off MSI to reduce power consumption*/
 	RCC->CR &= ~RCC_CR_MSION;
 	
-    /*Change SysTick to run the SysTick_Handler function every 1ms*/
+  /*Change SysTick to run the SysTick_Handler function every 1ms*/
 	SysTick->LOAD = SysTick->CALIB & SysTick_LOAD_RELOAD_Msk;
 	
-    /*Enable SysTick exception request and enable the SysTick timer*/
+  /*Enable SysTick exception request and enable the SysTick timer*/
 	SysTick->CTRL = SysTick_CTRL_TICKINT_Msk | SysTick_CTRL_ENABLE_Msk;
 }
+
 
 /*
 Function Name: Delay
@@ -82,12 +91,13 @@ Desc: Delays the program from running other code for a certain amount of time.
 */
 void Delay(unsigned int duration)
 {
-    /*Saves current system time to prevMillis*/
+  /*Saves current system time to prevMillis*/
 	unsigned int prevMillis = sysMillis;
-    /*Waits till the difference of current time and previous time is less than or
-    equal to the number 'duration' in ms*/
+  /*Waits till the difference of current time and previous time is less than or
+  equal to the number 'duration' in ms*/
 	while(sysMillis - prevMillis <= duration);
 }
+
 
 /*
 Function Name: SysTick_Handler

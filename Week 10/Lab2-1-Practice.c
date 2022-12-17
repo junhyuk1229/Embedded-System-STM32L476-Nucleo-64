@@ -1,3 +1,9 @@
+/*
+Name: Lab2-1-Practice.c
+Desc: Set up clock to set specific wanted delay
+			LED LD2 blinks on and off every 0.1 secs
+*/
+
 #include <stm32l4xx.h>
 
 void ClockInit(void);
@@ -7,7 +13,7 @@ int main(void)
 	/*Used in for loops*/
 	int i = 0;
 	
-    /*Setup initial clock configuration*/
+  /*Setup initial clock configuration*/
 	ClockInit();
 	
 	/*Enable Clock for GPIOA*/
@@ -31,6 +37,7 @@ int main(void)
 		for (i = 0; i < 500000; i++);
 	}
 }
+
 
 /*
 Function Name: ClockInit

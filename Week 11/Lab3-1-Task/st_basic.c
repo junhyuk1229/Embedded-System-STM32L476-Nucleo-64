@@ -1,5 +1,7 @@
 #include "st_basic.h"
 
+static unsigned int sysMillis = 0;
+
 /*
 Function Name: ClockInit
 Input Variables: None
@@ -32,6 +34,12 @@ void ClockInit(void)
 	
 	/*Turn off MSI to reduce power consumption*/
 	RCC->CR &= ~RCC_CR_MSION;
+	
+	/*Change SysTick to run the SysTick_Handler function every 1ms*/
+	SysTick->LOAD = SysTick->CALIB & SysTick_LOAD_RELOAD_Msk;
+	
+	/*Enable SysTick exception request and enable the SysTick timer*/
+	SysTick->CTRL = SysTick_CTRL_TICKINT_Msk | SysTick_CTRL_ENABLE_Msk;
 }
 
 
@@ -43,19 +51,19 @@ Desc: Sets up initial settings for GPIO.
 */
 void GPIO_Init(GPIO_TypeDef *port, unsigned int pin, GPIO_Mode mode)
 {
-    /*Used to set GPIO's state(bit 0 and 1)*/
+  /*Used to set GPIO's state(bit 0 and 1)*/
 	unsigned int modeIn32Bit = ((unsigned int)(mode & 3) << (2 * pin));
-    /*Used to set pull up and pull down resistors(bit 2 and 3)*/
+  /*Used to set pull up and pull down resistors(bit 2 and 3)*/
 	unsigned int pullUpDown = ((unsigned int)(mode >> 2) << (2 * pin));
 	
-    /*Enable clock for GPIO*/
+  /*Enable clock for GPIO*/
 	RCC->AHB2ENR |= (1 << (((unsigned int)port - GPIOA_BASE) >> 10));
 	
-    /*Change GPIO's state to output or input*/
+  /*Change GPIO's state to output or input*/
 	port->MODER |= modeIn32Bit;
 	port->MODER &= (modeIn32Bit | ~((unsigned int)3 << (2 * pin)));
 	
-    /*Change input GPIO's state to pull up or pull down or no resistor*/
+  /*Change input GPIO's state to pull up or pull down or no resistor*/
 	port->PUPDR |= pullUpDown;
 	port->PUPDR &= (pullUpDown | ~((unsigned int)3 << (2 * pin)));
 }
@@ -67,7 +75,8 @@ Input Variables: None
 Output Variables: None
 Desc: Sets up initial settings for USART2 use.
 */
-void USART2_Init(void)	{
+void USART2_Init(void)
+{
 	/*Select HSI16 clock as input for USART2 clock*/
 	RCC->CCIPR |= RCC_CCIPR_USART2SEL_1;
 	RCC->CCIPR &= ~RCC_CCIPR_USART2SEL_0;
@@ -97,7 +106,8 @@ Input Variables: None
 Output Variables: Character that is received through the USART2
 Desc: Gets a character through USART2 from device to computer
 */
-char USART2_RX(void)	{
+char USART2_RX(void)
+{
 	/*Loop till input buffer is filled*/
 	while (!(USART2->ISR & USART_ISR_RXNE));
 	/*Return input character*/
@@ -111,7 +121,8 @@ Input Variables: character: Character that is going to be sent through the USART
 Output Variables: None
 Desc: Sends a character through USART2 from computer to device
 */
-void USART2_TX(char character)	{
+void USART2_TX(char character)
+{
 	/*Loop till output buffer is empty*/
 	while (!(USART2->ISR & USART_ISR_TXE));
 	/*Send output through USART2*/
@@ -125,8 +136,37 @@ Input Variables: string: String that is going to be sent through the USART2
 Output Variables: None
 Desc: Sends a string through USART2 from computer to device
 */
-void USART2_TX_String(const char *string)	{
+void USART2_TX_String(const char *string)
+{
 	/*Keeps looping till 'string' is empty*/
 	/*Sends char at address to USART2 then move address by 1*/
 	while (*string != '\0') USART2_TX(*string++);
+}
+
+
+/*
+Function Name: Delay
+Input Variables: Amount of time to delay in ms
+Output Variables: None
+Desc: Delays the program from running other code for a certain amount of time.
+*/
+void Delay(unsigned int duration)
+{
+  /*Saves current system time to prevMillis*/
+	unsigned int prevMillis = sysMillis;
+  /*Waits till the difference of current time and previous time is less than or
+  equal to the number 'duration' in ms*/
+	while(sysMillis - prevMillis <= duration);
+}
+
+
+/*
+Function Name: SysTick_Handler
+Input Variables: None
+Output Variables: None
+Desc: Adds 1 to sysMillis variable every 1 ms.
+*/
+void SysTick_Handler(void)
+{
+	sysMillis++;
 }

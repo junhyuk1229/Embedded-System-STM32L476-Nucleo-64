@@ -1,8 +1,14 @@
+/*
+Name: Lab1-1-Practice.c
+Desc: Basic program that enables output for LED.
+			Turns LED LD2 on and off
+*/
+
 #include <stm32l4xx.h>
 
 int main(void)
 {
-	/*Used in for loops*/
+	/*Used in for loops at line 20, 26*/
 	int i = 0;
 	
 	/*Enable Clock for GPIOA*/
