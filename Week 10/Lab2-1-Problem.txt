@@ -1,4 +1,0 @@
-Making the same code work for this board made the code have different numbers for the for loop delays.
-5000000 long for loop makes 1 sec of delay, while for the other board it was 1000000.
-This makes the current board 5 times better in terms of speed.
-This might be because the internal clock or the settings changes between boards.

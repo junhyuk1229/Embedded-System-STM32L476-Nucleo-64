@@ -1,0 +1,13 @@
+12/17/2022
+Downloaded CubeIDE and basic files(Datasheets, etc.)
+Finished course content Section 2: Had no problems following
+
+Comment:
+I think 'CubeIDE' will be a better editing IDE than 'Keil uVision5'. Had problems where 'Keil uVision5' wasn't able to detect files in its own folder. To use 'CubeIDE' we need to download the 'stm32l4xx.h' file seperatly, and change some settings.
+
+12/18/2022
+Worked on a prototype for the Lab PPT
+Need further feedback
+
+Comment:
+I skipped the part where it talks about using '#define' to set  offsets for the code, because it would be confusing for the students and I think a lecture will be better than a lab to explain it. If the professor thinks that the '#define' part is needed then I will try to add it to the PPT.
