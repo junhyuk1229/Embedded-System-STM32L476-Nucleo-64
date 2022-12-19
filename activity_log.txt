@@ -11,3 +11,8 @@ Need further feedback
 
 Comment:
 I skipped the part where it talks about using '#define' to set  offsets for the code, because it would be confusing for the students and I think a lecture will be better than a lab to explain it. If the professor thinks that the '#define' part is needed then I will try to add it to the PPT.
+
+12/19/2022
+Added board schematic to files(to find the button / LED pins)
+Finished USART2 implementation
+Added PPT '2. GPIO'
