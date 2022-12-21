@@ -16,3 +16,20 @@ I skipped the part where it talks about using '#define' to set  offsets for the 
 Added board schematic to files(to find the button / LED pins)
 Finished USART2 implementation
 Added PPT '2. GPIO'
+
+
+
+12/20/2022
+Finished code + comment for USART
+Added PPT '3. USART'
+
+Comment:
+The length of the PPT is long so it might be better to divide the part for 2 classes.
+
+12/21/2022
+Finished code + comment for ADC
+Added PPT '4. ADC + Debug'
+
+Comment:
+Will not be able to update for a bit due to having my birthday + christmas + mothers birthday. Will try to watch the videos through other means.
+For the ADC, I just tested using regular resistors, but I think that it will be better for the students to use the resistors that can change the resistance by turning it.
